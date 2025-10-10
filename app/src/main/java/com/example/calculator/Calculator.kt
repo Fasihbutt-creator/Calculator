@@ -40,8 +40,13 @@ fun Calculator(
                 .align(Alignment.BottomCenter),
             verticalArrangement = Arrangement.spacedBy(buttonSpacing)
         ) {
-            // ---- Display: auto-shrink + expandable box + horizontal scroll fallback ----
-            val displayText = state.number1 + (state.operation?.symbol ?: "") + state.number2
+            // Build display text: show full expression (tokens + current input). If result exists, show result.
+            val displayText: String = state.result.ifEmpty {
+                // join tokens with spaces, then append currentInput (with a leading space if needed)
+                val tokensPart =
+                    if (state.tokens.isEmpty()) "" else state.tokens.joinToString(" ") + " "
+                tokensPart + state.currentInput
+            }
 
             // Font size state: start at 80sp, allow shrinking to minFont
             var currentFont by remember { mutableStateOf(80.sp) }
@@ -96,7 +101,7 @@ fun Calculator(
                     modifier = Modifier
                         .weight(2f)
                         .aspectRatio(2f)
-                        .background(color = Color.Magenta),
+                        .background(color = Color.Blue),
                     onClick = { onAction(CalculatorActions.Clear) }
                 )
 

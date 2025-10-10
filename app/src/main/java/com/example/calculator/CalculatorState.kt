@@ -1,8 +1,10 @@
 package com.example.calculator
 
 data class CalculatorState(
-    val number1 : String = "",
-    val number2 : String = "",
-val operation: CalculatorOperation ? = null
-
+    // expression tokens like ["12", "+", "3", "×", "5"]
+    val tokens: List<String> = emptyList(),
+    // currently typing number (may be "", "-", "3.14", etc.)
+    val currentInput: String = "",
+    // result after pressing '=', empty otherwise
+    val result: String = ""
 )
