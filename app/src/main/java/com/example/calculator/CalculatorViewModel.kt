@@ -117,6 +117,27 @@ class CalculatorViewModel : ViewModel() {
             }
         }
     }
+//
+//    private fun calculate() {
+//        // Build final token list: tokens + currentInput (if any)
+//        val finalTokens = state.tokens.toMutableList()
+//        if (state.currentInput.isNotEmpty()) {
+//            finalTokens.add(state.currentInput)
+//        }
+//
+//        if (finalTokens.isEmpty()) return
+//
+//        // Evaluate using shunting-yard -> RPN eval with BigDecimal
+//        val result = evaluateExpression(finalTokens)
+//        if (result != null) {
+//            // show result in state.result and clear tokens/currentInput (so next entry starts fresh)
+//            state = CalculatorState(tokens = emptyList(), currentInput = "", result = result)
+//        } else {
+//            // on error, clear state (you can change to show an error token instead)
+//            state = CalculatorState()
+//        }
+//    }
+
 
     private fun calculate() {
         // Build final token list: tokens + currentInput (if any)
@@ -125,7 +146,15 @@ class CalculatorViewModel : ViewModel() {
             finalTokens.add(state.currentInput)
         }
 
+        // nothing to calculate
         if (finalTokens.isEmpty()) return
+
+        // If the last token is an operator (e.g. tokens = ["12", "+"]), do nothing
+        // so the user can continue typing; don't clear or change the text field.
+        val lastToken = finalTokens.last()
+        if (isOperator(lastToken)) {
+            return
+        }
 
         // Evaluate using shunting-yard -> RPN eval with BigDecimal
         val result = evaluateExpression(finalTokens)
@@ -137,6 +166,7 @@ class CalculatorViewModel : ViewModel() {
             state = CalculatorState()
         }
     }
+
 
     // Helpers
 
