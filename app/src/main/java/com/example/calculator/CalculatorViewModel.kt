@@ -169,7 +169,67 @@ class CalculatorViewModel : ViewModel() {
 
 
     // Helpers
+    /**
+     * Return true when the combined tokens (tokens + currentInput) contain at least
+     * 2 numeric operands and at least 1 operator. This is a conservative check:
+     * - numeric operands are validated by attempting to parse them with BigDecimal
+     * - lone "-" (a started negative sign) is NOT counted as an operand
+     */
+    fun hasAtLeastOneOpAndTwoOperands(tokens: List<String>, currentInput: String): Boolean {
+        val combined = tokens.toMutableList()
+        if (currentInput.isNotEmpty()) combined.add(currentInput)
 
+        if (combined.size < 3) return false
+
+        var operandCount = 0
+        var operatorCount = 0
+
+        for (t in combined) {
+            val s = t.trim()
+            if (s.isEmpty()) continue
+            if (isOperator(s)) {
+                operatorCount++
+            } else {
+                // treat as operand only if it parses as a number (handles "-5", "3.14")
+                val isNumber = try {
+                    // treat lone "-" as not a number
+                    if (s == "-") false else BigDecimal(s).let { true }
+                } catch (e: Exception) {
+                    false
+                }
+                if (isNumber) operandCount++
+            }
+        }
+
+        return operatorCount >= 1 && operandCount >= 2
+    }
+
+    /**
+     * Preview-evaluate the expression represented by tokens + currentInput.
+     * Rules:
+     * - If last token is an operator, evaluate tokens before that operator (preview of previous completed expression).
+     * - Otherwise evaluate tokens + currentInput (if any).
+     * - Returns formatted result string, or null if nothing to preview or expression is invalid.
+     */
+    fun previewEvaluate(tokens: List<String>, currentInput: String): String? {
+        // Build combined list
+        val combined = tokens.toMutableList()
+        if (currentInput.isNotEmpty()) combined.add(currentInput)
+
+        if (combined.isEmpty()) return null
+
+        // If last token is operator, evaluate before it
+        val last = combined.last().trim()
+        val tokensToEval = if (isOperator(last)) {
+            if (combined.size < 3) return null
+            combined.dropLast(1)
+        } else {
+            if (combined.size < 3) return null
+            combined
+        }
+
+        return evaluateExpression(tokensToEval)
+    }
     private fun isOperator(s: String) = s == "+" || s == "-" || s == "x" || s == "/" || s == "*"
 
     private fun precedence(op: String): Int {
