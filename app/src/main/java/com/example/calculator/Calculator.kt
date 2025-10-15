@@ -8,11 +8,15 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -48,23 +52,27 @@ fun Calculator(
                 tokensPart + state.currentInput
             }
 
-            // Font size state: start at 80sp, allow shrinking to minFont
+
+
+            // Font size state (keep where it is)
             var currentFont by remember { mutableStateOf(80.sp) }
             val maxFont = 80.sp
             val minFont = 20.sp
 
-            // horizontal scroll so user can swipe if needed after shrinking
-            val scrollState = rememberScrollState()
+// horizontal scroll so user can swipe if needed after shrinking
+            val displayScroll = rememberScrollState()
 
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 32.dp)
-                    // allow the display area to grow vertically as text wraps to new lines
-                    .heightIn(min = 72.dp)
-                    // fallback: user can scroll horizontally if still too wide
-                    .horizontalScroll(scrollState)
+                    .horizontalScroll(displayScroll)
             ) {
+                // auto-scroll to the end whenever displayText changes
+                LaunchedEffect(displayText) {
+                    // animate to the max scroll position so newest chars are visible
+                    displayScroll.animateScrollTo(displayScroll.maxValue)
+                }
+
                 Text(
                     text = displayText,
                     textAlign = TextAlign.End,
@@ -89,9 +97,7 @@ fun Calculator(
                         }
                     }
                 )
-            }
-
-            // ---- Rows of buttons (unchanged logic, kept your layout) ----
+            }          // ---- Rows of buttons (unchanged logic, kept your layout) ----
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(buttonSpacing)
