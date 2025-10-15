@@ -295,6 +295,7 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -517,7 +518,8 @@ fun Calculator(
                     modifier = Modifier
                         .weight(2f)
                         .aspectRatio(2f)
-                        .background(color = Color.Blue),
+                        .background(color = Color.Red) ,
+
                     onClick = { onAction(CalculatorActions.Clear) }
                 )
 
@@ -526,7 +528,7 @@ fun Calculator(
                     modifier = Modifier
                         .weight(1f)
                         .aspectRatio(1f)
-                        .background(color = Color.Red),
+                        .background(color = Color.DarkGray),
                     onClick = { onAction(CalculatorActions.Delete) }
                 )
 
@@ -535,7 +537,7 @@ fun Calculator(
                     modifier = Modifier
                         .weight(1f)
                         .aspectRatio(1f)
-                        .background(color = Color.Green),
+                        .background(MaterialTheme.colorScheme.primary),
                     onClick = { onAction(CalculatorActions.Operation(CalculatorOperation.Divide)) }
                 )
             }
@@ -573,7 +575,7 @@ fun Calculator(
                     modifier = Modifier
                         .weight(1f)
                         .aspectRatio(1f)
-                        .background(Color.Green),
+                        .background(MaterialTheme.colorScheme.primary),
                     onClick = { onAction(CalculatorActions.Operation(CalculatorOperation.Multiply)) }
                 )
             }
@@ -611,7 +613,7 @@ fun Calculator(
                     modifier = Modifier
                         .weight(1f)
                         .aspectRatio(1f)
-                        .background(color = Color.Green),
+                        .background(MaterialTheme.colorScheme.primary),
                     onClick = { onAction(CalculatorActions.Operation(CalculatorOperation.Add)) }
                 )
             }
@@ -649,7 +651,7 @@ fun Calculator(
                     modifier = Modifier
                         .weight(1f)
                         .aspectRatio(1f)
-                        .background(color = Color.Green),
+                        .background(MaterialTheme.colorScheme.primary),
                     onClick = { onAction(CalculatorActions.Operation(CalculatorOperation.Subtract)) }
                 )
             }
@@ -679,7 +681,7 @@ fun Calculator(
                     modifier = Modifier
                         .weight(1f)
                         .aspectRatio(1f)
-                        .background(color = Color.Green),
+                        .background(MaterialTheme.colorScheme.tertiary),
                     onClick = { onAction(CalculatorActions.Calculate) }
                 )
             }

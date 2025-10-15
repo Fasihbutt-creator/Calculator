@@ -10,19 +10,22 @@ import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
+import com.example.calculator.ui.theme.black
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Emerald,
+    primary = Orange,
     secondary = PurpleGrey40,
-    tertiary = OffWhite
+    tertiary = RoyalBlue,
+            background = black
+
 
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Emerald,
+    primary = Orange,
     secondary = PurpleGrey40,
-    tertiary = Pink40
-
+    tertiary = RoyalBlue,
+            background = black
     /* Other default colors to override
     background = Color(0xFFFFFBFE),
     surface = Color(0xFFFFFBFE),
@@ -38,7 +41,7 @@ private val LightColorScheme = lightColorScheme(
 fun CalculatorTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {

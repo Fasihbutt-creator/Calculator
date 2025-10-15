@@ -8,6 +8,8 @@ val Pink80 = Color(0xFFEFB8C8)
 
 val Purple40 = Color(0xFF6650a4)
 val PurpleGrey40 = Color(0xD807D3A3)
+
+val black = Color(0xFF2F2B2B)
 val Pink40 = Color(0xFF7D5260)
 
 
@@ -29,6 +31,11 @@ val LimeGreen = Color(0xFF32CD32)
 val SunsetOrange = Color(0xFFFF4500)
 val Amber = Color(0xFFFFC107)
 val LemonYellow = Color(0xFFFFFF66)
+val LightOrange = Color(0xFFFFCC80)   // soft, light orange
+val Orange = Color(0xFFFF9800)        // standard bright orange
+val DeepOrange = Color(0xFFF57C00)    // deeper, warmer orange
+val DarkOrange = Color(0xFFE65100)    // dark orange, great for contrast
+
 
 
 val Charcoal = Color(0xFF333333)
